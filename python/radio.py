@@ -198,7 +198,6 @@ class Engine:
         self._screen.initialize()
 
     def _knob_event(self, event):
-        #['NO_EVENT', 'CLOCKWISE', 'ANTICLOCKWISE', 'BUTTONDOWN', 'BUTTONUP']
         if event:
             self._evtque.append(event)
             self._evtsig.set()
