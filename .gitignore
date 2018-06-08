@@ -1,3 +1,4 @@
 __pycache__
 .DS_Store
+buildroot/etc/wap_supplicant.conf
 

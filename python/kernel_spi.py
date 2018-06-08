@@ -45,8 +45,9 @@ class EpdKernelPort:
         GPIO.output(self.DC_PIN, False)
         if isinstance(data, int):
             # accept single byte as an integer
-            data = bytes([data])
-        self._spi_port.writebytes(data)
+            self._spi_port.writebytes([data])
+        else:
+            self._spi_port.writebytes(list(data))
 
     def write_data(self, data):
         """Write a data byte sequence to the display"""
@@ -58,7 +59,7 @@ class EpdKernelPort:
             # SPI driver does not accept SPI exchange larger than an MMU
             # small page (FTDI backend accepts up to 64K)
             buf, data = data[:4096], data[4096:]
-            self._spi_port.writebytes(buf)
+            self._spi_port.writebytes(list(buf))
 
     def wait_ready(self):
         """Busy polling waiting for e-Ink readyness"""

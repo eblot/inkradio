@@ -311,7 +311,7 @@ if __name__ == '__main__':
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
     fontname = 'HelveticaNeue.ttf'
-    fontpath = joinpath(dirname(__file__), pardir, pardir, fontname)
+    fontpath = joinpath(dirname(__file__), pardir, 'fonts', fontname)
     engine = Engine(fontpath)
     engine.initialize()
     engine.run()

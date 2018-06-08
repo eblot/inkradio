@@ -319,11 +319,22 @@ class Epd:
         # print('Refresh (%d,%d)..(%d,%d)' % (xs, ys, xe, ye))
         pixels = self._frame.load()
         buf = array('B')
+        # for hix in range(ys, ye+1):
+        #     for wix in range(xs, xe+1, 8):
+        #         buf.append(reduce(lambda byte, bit: byte << 1 | bit,
+        #                           [pixels[wix+ix, hix] & 1
+        #                            for ix in range(8)]))
+        # not as nice, but 2.5x faster...
         for hix in range(ys, ye+1):
             for wix in range(xs, xe+1, 8):
-                buf.append(reduce(lambda byte, bit: byte << 1 | bit,
-                                  [pixels[wix+ix, hix] & 1
-                                   for ix in range(8)]))
+                buf.append(((pixels[wix, hix] & 1) << 7) +
+                           ((pixels[wix+1, hix] & 1) << 6) +
+                           ((pixels[wix+2, hix] & 1) << 5) +
+                           ((pixels[wix+3, hix] & 1) << 4) +
+                           ((pixels[wix+4, hix] & 1) << 3) +
+                           ((pixels[wix+5, hix] & 1) << 2) +
+                           ((pixels[wix+6, hix] & 1) << 1) +
+                           ((pixels[wix+7, hix] & 1)))
         return buf, (xs, ys, xe, ye)
 
     def _send_command(self, command):
